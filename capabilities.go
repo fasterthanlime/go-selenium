@@ -12,6 +12,50 @@ type browser struct {
 	browserName string
 }
 
+// ChromeOptions defines chromedriver-specific options
+type ChromeOptions interface {
+	Binary() string
+	SetBinary(binary string)
+	Args() []string
+	SetArgs(args []string)
+
+	AsMap() map[string]interface{}
+}
+
+type chromeOptions struct {
+	binary string
+	args   []string
+}
+
+// Binary returns the executable chromedriver will launch when a new session is created.
+func (co *chromeOptions) Binary() string {
+	return co.binary
+}
+
+// SetBinary defines the executable chromedriver will launch when a new session is created.
+func (co *chromeOptions) SetBinary(binary string) {
+	co.binary = binary
+}
+
+// Args returns the command-line argument chromedriver will pass to the binary.
+func (co *chromeOptions) Args() []string {
+	return co.args
+}
+
+// SetArgs defines the command-line argument chromedriver will pass to the binary.
+func (co *chromeOptions) SetArgs(args []string) {
+	co.args = args
+}
+
+// AsMap returns a version of chrome options suitable for sending
+// over to chromedriver over the wire.
+func (co *chromeOptions) AsMap() map[string]interface{} {
+	return map[string]interface{}{
+		"binary": co.Binary(),
+		"args":   co.Args(),
+	}
+}
+
 // BrowserName returns the browser name assigned to the current browser object.
 func (b browser) BrowserName() string {
 	return b.browserName
@@ -66,7 +110,8 @@ func SafariBrowser() Browser {
 // The main capability is the browser, which can be set by calling one of the
 // \wBrowser\(\) methods.
 type Capabilities struct {
-	browser Browser
+	browser       Browser
+	chromeOptions ChromeOptions
 }
 
 // Browser yields the browser capability assigned to the current Capabilities
@@ -84,11 +129,33 @@ func (c *Capabilities) SetBrowser(b Browser) {
 	c.browser = b
 }
 
+// ChromeOptions yields the browser capability assigned to the current Capabilities
+// object, or a new one if none is currently set.
+func (c *Capabilities) ChromeOptions() ChromeOptions {
+	if c.chromeOptions != nil {
+		return c.chromeOptions
+	}
+
+	return &chromeOptions{
+		binary: "",
+		args:   []string{},
+	}
+}
+
+// SetChromeOptions sets the chrome options for the current Capabilities object.
+func (c *Capabilities) SetChromeOptions(co ChromeOptions) {
+	c.chromeOptions = co
+}
+
 func (c *Capabilities) toJSON() (string, error) {
 	capabilities := map[string]map[string]interface{}{
 		"desiredCapabilities": {
 			"browserName": c.browser.BrowserName(),
 		},
+	}
+
+	if c.chromeOptions != nil {
+		capabilities["desiredCapabilities"]["chromeOptions"] = c.ChromeOptions().AsMap()
 	}
 
 	capabilitiesJSON, err := json.Marshal(capabilities)
