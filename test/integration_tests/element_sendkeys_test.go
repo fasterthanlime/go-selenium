@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/bunsenapp/go-selenium"
+	"github.com/fasterthanlime/go-selenium"
 )
 
 func Test_ElementSendKeys_CanSendKeysToInputField(t *testing.T) {

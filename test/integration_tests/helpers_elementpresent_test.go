@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	goselenium "github.com/bunsenapp/go-selenium"
+	goselenium "github.com/fasterthanlime/go-selenium"
 )
 
 func Test_ElementWaitUntilElementPresent_CanSucceed(t *testing.T) {

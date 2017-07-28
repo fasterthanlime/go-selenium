@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/bunsenapp/go-selenium"
+	"github.com/fasterthanlime/go-selenium"
 )
 
 func Test_ElementClick_ClickSuccessfullyNavigates(t *testing.T) {

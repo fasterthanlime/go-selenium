@@ -3,7 +3,7 @@ package integrationtests
 import (
 	"testing"
 
-	"github.com/bunsenapp/go-selenium"
+	"github.com/fasterthanlime/go-selenium"
 )
 
 func Test_SessionDelete_CallingDeleteSessionMethodWithoutASessionIdResultsInAnError(t *testing.T) {

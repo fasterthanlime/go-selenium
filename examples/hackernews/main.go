@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	goselenium "github.com/bunsenapp/go-selenium"
+	goselenium "github.com/fasterthanlime/go-selenium"
 )
 
 func main() {
