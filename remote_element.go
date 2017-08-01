@@ -21,6 +21,14 @@ type ElementSelectedResponse struct {
 	Selected bool   `json:"value"`
 }
 
+// ElementDisplayedResponse is the response returned from the Displayed() call.
+// The result /should/ always be successfully returned unless there is a
+// server error.
+type ElementDisplayedResponse struct {
+	State     string `json:"state"`
+	Displayed bool   `json:"value"`
+}
+
 // ElementAttributeResponse is the response returned from the Attribute call.
 type ElementAttributeResponse struct {
 	State string
@@ -72,6 +80,11 @@ type ElementClickResponse struct {
 	State string
 }
 
+// ElementMoveToResponse is the response returned from calling the MoveTo method.
+type ElementMoveToResponse struct {
+	State string
+}
+
 // ElementClearResponse is the response returned from calling the Clear method.
 type ElementClearResponse struct {
 	State string
@@ -105,6 +118,25 @@ func (s *seleniumElement) Selected() (*ElementSelectedResponse, error) {
 	err = json.Unmarshal(resp, &el)
 	if err != nil {
 		return nil, newUnmarshallingError(err, "Selected", string(resp))
+	}
+
+	return &el, nil
+}
+
+func (s *seleniumElement) Displayed() (*ElementDisplayedResponse, error) {
+	var el ElementDisplayedResponse
+	var err error
+
+	url := fmt.Sprintf("%s/session/%s/element/%s/displayed", s.wd.seleniumURL, s.wd.sessionID, s.ID())
+
+	resp, err := s.wd.apiService.performRequest(url, "GET", nil)
+	if err != nil {
+		return nil, newCommunicationError(err, "Displayed", url, nil)
+	}
+
+	err = json.Unmarshal(resp, &el)
+	if err != nil {
+		return nil, newUnmarshallingError(err, "Displayed", string(resp))
 	}
 
 	return &el, nil
@@ -236,6 +268,37 @@ func (s *seleniumElement) Click() (*ElementClickResponse, error) {
 	}
 
 	return &ElementClickResponse{State: resp.State}, nil
+}
+
+func (s *seleniumElement) MoveTo(xoffset int, yoffset int) (*ElementMoveToResponse, error) {
+	var err error
+
+	dict := map[string]interface{}{
+		"element": s.ID(),
+		"xoffset": xoffset,
+		"yoffset": yoffset,
+	}
+
+	body, err := json.Marshal(dict)
+	if err != nil {
+		return nil, newMarshallingError(err, "MoveTo", dict)
+	}
+
+	reader := bytes.NewReader(body)
+
+	url := fmt.Sprintf("%s/session/%s/moveto", s.wd.seleniumURL, s.wd.sessionID)
+
+	resp, err := s.wd.stateRequest(&request{
+		url:           url,
+		method:        "POST",
+		body:          reader,
+		callingMethod: "MoveTo",
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return &ElementMoveToResponse{State: resp.State}, nil
 }
 
 func (s *seleniumElement) Clear() (*ElementClearResponse, error) {
