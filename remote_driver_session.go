@@ -178,5 +178,5 @@ func (s *seleniumWebDriver) Log(logType string) (*LogResponse, error) {
 		return nil, err
 	}
 
-	return resp, nil
+	return &LogResponse{Entries: resp.Value}, nil
 }

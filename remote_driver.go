@@ -140,8 +140,8 @@ func (s *seleniumWebDriver) stateRequest(req *request) (*stateResponse, error) {
 	return &response, nil
 }
 
-func (s *seleniumWebDriver) logRequest(req *request) (*LogResponse, error) {
-	var response LogResponse
+func (s *seleniumWebDriver) logRequest(req *request) (*logResponse, error) {
+	var response logResponse
 	var err error
 
 	resp, err := s.apiService.performRequest(req.url, req.method, req.body)
@@ -149,7 +149,7 @@ func (s *seleniumWebDriver) logRequest(req *request) (*LogResponse, error) {
 		return nil, newCommunicationError(err, req.callingMethod, req.url, resp)
 	}
 
-	err = json.Unmarshal(resp, &response.Entries)
+	err = json.Unmarshal(resp, &response)
 	if err != nil {
 		return nil, newUnmarshallingError(err, req.callingMethod, string(resp))
 	}
@@ -250,6 +250,10 @@ type stateResponse struct {
 type valueResponse struct {
 	State string `json:"state"`
 	Value string `json:"value"`
+}
+
+type logResponse struct {
+	Value []*LogEntry `json:"value"`
 }
 
 type by struct {
