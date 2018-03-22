@@ -140,6 +140,23 @@ func (s *seleniumWebDriver) stateRequest(req *request) (*stateResponse, error) {
 	return &response, nil
 }
 
+func (s *seleniumWebDriver) logRequest(req *request) (*LogResponse, error) {
+	var response LogResponse
+	var err error
+
+	resp, err := s.apiService.performRequest(req.url, req.method, req.body)
+	if err != nil {
+		return nil, newCommunicationError(err, req.callingMethod, req.url, resp)
+	}
+
+	err = json.Unmarshal(resp, &response.Entries)
+	if err != nil {
+		return nil, newUnmarshallingError(err, req.callingMethod, string(resp))
+	}
+
+	return &response, nil
+}
+
 func (s *seleniumWebDriver) valueRequest(req *request) (*valueResponse, error) {
 	var response valueResponse
 	var err error

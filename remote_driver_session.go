@@ -41,6 +41,16 @@ type SetSessionTimeoutResponse struct {
 	State string
 }
 
+type LogEntry struct {
+	Timestamp float64 `json:"timestamp"`
+	Level     string  `json:"level"`
+	Message   string  `json:"message"`
+}
+
+type LogResponse struct {
+	Entries []*LogEntry
+}
+
 func (s *seleniumWebDriver) CreateSession() (*CreateSessionResponse, error) {
 	var response CreateSessionResponse
 	var err error
@@ -138,4 +148,35 @@ func (s *seleniumWebDriver) SetSessionTimeout(to Timeout) (*SetSessionTimeoutRes
 	}
 
 	return &SetSessionTimeoutResponse{State: resp.State}, nil
+}
+
+func (s *seleniumWebDriver) Log(logType string) (*LogResponse, error) {
+	if len(s.sessionID) == 0 {
+		return nil, newSessionIDError("Log")
+	}
+
+	var err error
+
+	url := fmt.Sprintf("%s/session/%s/log", s.seleniumURL, s.sessionID)
+
+	params := map[string]interface{}{
+		"type": logType,
+	}
+	marshalledJSON, err := json.Marshal(params)
+	if err != nil {
+		return nil, newMarshallingError(err, "Log", params)
+	}
+
+	bodyReader := bytes.NewReader([]byte(marshalledJSON))
+	resp, err := s.logRequest(&request{
+		url:           url,
+		method:        "POST",
+		body:          bodyReader,
+		callingMethod: "Log",
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return resp, nil
 }

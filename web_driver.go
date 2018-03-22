@@ -116,6 +116,8 @@ type WebDriver interface {
 	// Call SessionImplicitWaitTimeout() to generate an implicit wait timeout.
 	SetSessionTimeout(to Timeout) (*SetSessionTimeoutResponse, error)
 
+	Log(logType string) (*LogResponse, error)
+
 	/*
 		NAVIGATION METHODS
 	*/
