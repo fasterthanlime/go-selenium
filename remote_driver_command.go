@@ -27,6 +27,7 @@ type CloseWindowResponse struct {
 // method. You can verify that this result is correct by calling the
 // WindowHandle() method. The two should match.
 type SwitchToWindowResponse struct {
+	State string `json:"state"`
 }
 
 // WindowHandlesResponse is the response returned from the WindowHandles()
@@ -128,7 +129,38 @@ func (s *seleniumWebDriver) CloseWindow() (*CloseWindowResponse, error) {
 }
 
 func (s *seleniumWebDriver) SwitchToWindow(handle string) (*SwitchToWindowResponse, error) {
-	return nil, nil
+	if len(s.sessionID) == 0 {
+		return nil, newSessionIDError("SwitchToWindow")
+	}
+
+	var err error
+
+	url := fmt.Sprintf("%s/session/%s/window", s.seleniumURL, s.sessionID)
+
+	params := map[string]interface{}{
+		// chromedriver versions before late august 2017
+		// look for "name", not "handle", so let's specify
+		// both
+		"name":   handle,
+		"handle": handle,
+	}
+	requestJSON, err := json.Marshal(params)
+	if err != nil {
+		return nil, newMarshallingError(err, "SwitchToWindow", params)
+	}
+
+	body := bytes.NewReader(requestJSON)
+	resp, err := s.stateRequest(&request{
+		url:           url,
+		method:        "POST",
+		body:          body,
+		callingMethod: "SwitchToWindow",
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return &SwitchToWindowResponse{State: resp.State}, nil
 }
 
 func (s *seleniumWebDriver) WindowHandles() (*WindowHandlesResponse, error) {
