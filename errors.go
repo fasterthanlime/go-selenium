@@ -38,6 +38,8 @@ func newCommunicationError(err error, method string, url string, resp []byte) Co
 			Message: reqErr.Value.Message,
 			State:   reqErr.State,
 		}
+	} else {
+		convertedResponse.Message = fmt.Sprintf("%+v", err)
 	}
 
 	return CommunicationError{
