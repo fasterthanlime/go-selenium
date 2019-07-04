@@ -1,6 +1,8 @@
 package goselenium
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 // Browser defines a supported selenium enabled browser.
 type Browser interface {
@@ -129,13 +131,8 @@ func (c *Capabilities) SetBrowser(b Browser) {
 	c.browser = b
 }
 
-// ChromeOptions yields the browser capability assigned to the current Capabilities
-// object, or a new one if none is currently set.
-func (c *Capabilities) ChromeOptions() ChromeOptions {
-	if c.chromeOptions != nil {
-		return c.chromeOptions
-	}
-
+// NewChromeOptions returns an empty set of ChromeOptions
+func NewChromeOptions() ChromeOptions {
 	return &chromeOptions{
 		binary: "",
 		args:   []string{},
@@ -155,7 +152,7 @@ func (c *Capabilities) toJSON() (string, error) {
 	}
 
 	if c.chromeOptions != nil {
-		capabilities["desiredCapabilities"]["chromeOptions"] = c.ChromeOptions().AsMap()
+		capabilities["desiredCapabilities"]["chromeOptions"] = c.chromeOptions.AsMap()
 	}
 
 	capabilitiesJSON, err := json.Marshal(capabilities)

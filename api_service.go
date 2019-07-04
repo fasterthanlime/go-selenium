@@ -2,12 +2,11 @@ package goselenium
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 
-	"errors"
+	"github.com/pkg/errors"
 )
 
 type apiServicer interface {
@@ -48,16 +47,7 @@ func (a seleniumAPIService) performRequest(url string, method string, body io.Re
 	r := buf.Bytes()
 
 	if resp.StatusCode != 200 {
-		var reqErr requestError
-		var errStr string
-
-		err := json.Unmarshal(r, &reqErr)
-		if err == nil {
-			return nil, &reqErr
-		}
-
-		errStr = fmt.Sprintf("Status code %v returned with no body", resp.StatusCode)
-		return nil, errors.New(errStr)
+		return nil, errors.Errorf("WebDriver error: %q", string(r))
 	}
 
 	return r, nil
