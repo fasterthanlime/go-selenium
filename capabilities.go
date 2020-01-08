@@ -53,8 +53,9 @@ func (co *chromeOptions) SetArgs(args []string) {
 // over to chromedriver over the wire.
 func (co *chromeOptions) AsMap() map[string]interface{} {
 	return map[string]interface{}{
-		"binary": co.Binary(),
-		"args":   co.Args(),
+		"binary":      co.Binary(),
+		"args":        co.Args(),
+		"windowTypes": []string{"webview"},
 	}
 }
 
