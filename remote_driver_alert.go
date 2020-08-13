@@ -94,7 +94,13 @@ func (s *seleniumWebDriver) AlertText() (*AlertTextResponse, error) {
 		return nil, err
 	}
 
-	return &AlertTextResponse{State: resp.State, Text: resp.Value}, nil
+	var value string
+	err = json.Unmarshal(resp.Value, &value)
+	if err != nil {
+		return nil, newUnmarshallingError(err, "AlertTextResponse", string(resp.Value))
+	}
+
+	return &AlertTextResponse{State: resp.State, Text: value}, nil
 }
 
 func (s *seleniumWebDriver) SendAlertText(text string) (*SendAlertTextResponse, error) {

@@ -213,7 +213,13 @@ func (s *seleniumWebDriver) scriptRequest(script string, url string, method stri
 		return nil, err
 	}
 
-	return &ExecuteScriptResponse{State: resp.State, Response: resp.Value}, nil
+	var value string
+	err = json.Unmarshal(resp.Value, &value)
+	if err != nil {
+		return nil, newUnmarshallingError(err, method, string(resp.Value))
+	}
+
+	return &ExecuteScriptResponse{State: resp.State, Response: value}, nil
 }
 
 type timeout struct {
@@ -248,8 +254,8 @@ type stateResponse struct {
 }
 
 type valueResponse struct {
-	State string `json:"state"`
-	Value string `json:"value"`
+	State string          `json:"state"`
+	Value json.RawMessage `json:"value"`
 }
 
 type logResponse struct {

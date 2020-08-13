@@ -1,6 +1,9 @@
 package goselenium
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 // PageSourceResponse is the response returned from calling the PageSource
 // method.
@@ -35,7 +38,13 @@ func (s *seleniumWebDriver) PageSource() (*PageSourceResponse, error) {
 		return nil, err
 	}
 
-	return &PageSourceResponse{State: resp.State, Source: resp.Value}, nil
+	var value string
+	err = json.Unmarshal(resp.Value, &value)
+	if err != nil {
+		return nil, newUnmarshallingError(err, "PageSource", string(resp.Value))
+	}
+
+	return &PageSourceResponse{State: resp.State, Source: value}, nil
 }
 
 func (s *seleniumWebDriver) ExecuteScript(script string) (*ExecuteScriptResponse, error) {

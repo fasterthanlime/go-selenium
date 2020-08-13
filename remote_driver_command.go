@@ -97,9 +97,15 @@ func (s *seleniumWebDriver) WindowHandle() (*WindowHandleResponse, error) {
 		return nil, err
 	}
 
+	var value string
+	err = json.Unmarshal(resp.Value, &value)
+	if err != nil {
+		return nil, newUnmarshallingError(err, "WindowHandle", string(resp.Value))
+	}
+
 	response = WindowHandleResponse{
 		State:  resp.State,
-		Handle: resp.Value,
+		Handle: value,
 	}
 
 	return &response, nil

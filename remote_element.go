@@ -157,7 +157,13 @@ func (s *seleniumElement) Attribute(att string) (*ElementAttributeResponse, erro
 		return nil, err
 	}
 
-	return &ElementAttributeResponse{State: resp.State, Value: resp.Value}, nil
+	var value string
+	err = json.Unmarshal(resp.Value, &value)
+	if err != nil {
+		return nil, newUnmarshallingError(err, "Attribute", string(resp.Value))
+	}
+
+	return &ElementAttributeResponse{State: resp.State, Value: value}, nil
 }
 
 func (s *seleniumElement) CSSValue(prop string) (*ElementCSSValueResponse, error) {
@@ -175,7 +181,13 @@ func (s *seleniumElement) CSSValue(prop string) (*ElementCSSValueResponse, error
 		return nil, err
 	}
 
-	return &ElementCSSValueResponse{State: resp.State, Value: resp.Value}, nil
+	var value string
+	err = json.Unmarshal(resp.Value, &value)
+	if err != nil {
+		return nil, newUnmarshallingError(err, "CSSValue", string(resp.Value))
+	}
+
+	return &ElementCSSValueResponse{State: resp.State, Value: value}, nil
 }
 
 func (s *seleniumElement) Text() (*ElementTextResponse, error) {
@@ -193,7 +205,13 @@ func (s *seleniumElement) Text() (*ElementTextResponse, error) {
 		return nil, err
 	}
 
-	return &ElementTextResponse{State: resp.State, Text: resp.Value}, nil
+	var value string
+	err = json.Unmarshal(resp.Value, &value)
+	if err != nil {
+		return nil, newUnmarshallingError(err, "CSSValue", string(resp.Value))
+	}
+
+	return &ElementTextResponse{State: resp.State, Text: value}, nil
 }
 
 func (s *seleniumElement) TagName() (*ElementTagNameResponse, error) {
@@ -211,7 +229,13 @@ func (s *seleniumElement) TagName() (*ElementTagNameResponse, error) {
 		return nil, err
 	}
 
-	return &ElementTagNameResponse{State: resp.State, Tag: resp.Value}, nil
+	var value string
+	err = json.Unmarshal(resp.Value, &value)
+	if err != nil {
+		return nil, newUnmarshallingError(err, "TagName", string(resp.Value))
+	}
+
+	return &ElementTagNameResponse{State: resp.State, Tag: value}, nil
 }
 
 func (s *seleniumElement) Rectangle() (*ElementRectangleResponse, error) {

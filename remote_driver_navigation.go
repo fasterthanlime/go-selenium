@@ -100,9 +100,15 @@ func (s *seleniumWebDriver) CurrentURL() (*CurrentURLResponse, error) {
 		return nil, err
 	}
 
+	var value string
+	err = json.Unmarshal(resp.Value, &value)
+	if err != nil {
+		return nil, newUnmarshallingError(err, "CurrentURL", string(resp.Value))
+	}
+
 	response = CurrentURLResponse{
 		State: resp.State,
-		URL:   resp.Value,
+		URL:   value,
 	}
 	return &response, nil
 }
@@ -193,9 +199,15 @@ func (s *seleniumWebDriver) Title() (*TitleResponse, error) {
 		return nil, err
 	}
 
+	var value string
+	err = json.Unmarshal(resp.Value, &value)
+	if err != nil {
+		return nil, newUnmarshallingError(err, "Title", string(resp.Value))
+	}
+
 	response = TitleResponse{
 		State: resp.State,
-		Title: resp.Value,
+		Title: value,
 	}
 	return &response, nil
 }

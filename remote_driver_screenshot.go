@@ -2,6 +2,7 @@ package goselenium
 
 import (
 	"encoding/base64"
+	"encoding/json"
 	"fmt"
 )
 
@@ -39,5 +40,11 @@ func (s *seleniumWebDriver) Screenshot() (*ScreenshotResponse, error) {
 		return nil, err
 	}
 
-	return &ScreenshotResponse{State: resp.State, EncodedImage: resp.Value}, nil
+	var value string
+	err = json.Unmarshal(resp.Value, &value)
+	if err != nil {
+		return nil, newUnmarshallingError(err, "Screenshot", string(resp.Value))
+	}
+
+	return &ScreenshotResponse{State: resp.State, EncodedImage: value}, nil
 }
