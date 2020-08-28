@@ -1,8 +1,8 @@
 # go-selenium
 
-[![Build Status](https://travis-ci.org/fasterthanlime/go-selenium.svg?branch=master)](https://travis-ci.org/fasterthanlime/go-selenium)
-[![GoDoc](https://godoc.org/github.com/fasterthanlime/go-selenium?status.svg)](https://godoc.org/github.com/fasterthanlime/go-selenium)
-[![Go Report Card](https://goreportcard.com/badge/github.com/fasterthanlime/go-selenium)](https://goreportcard.com/report/github.com/fasterthanlime/go-selenium)
+[![Build Status](https://travis-ci.org/itchio/go-selenium.svg?branch=master)](https://travis-ci.org/itchio/go-selenium)
+[![GoDoc](https://godoc.org/github.com/itchio/go-selenium?status.svg)](https://godoc.org/github.com/itchio/go-selenium)
+[![Go Report Card](https://goreportcard.com/badge/github.com/itchio/go-selenium)](https://goreportcard.com/report/github.com/itchio/go-selenium)
 
 ## Introduction
 
@@ -18,17 +18,17 @@ Yes, yet another Selenium Web Driver library has been brought to the table. This
 
 As with all Go libraries, go-selenium is easy to install. Simply run the below command:
 
-`go get github.com/fasterthanlime/go-selenium`
+`go get github.com/itchio/go-selenium`
 
 and then import the library in your project:
 
-`import "github.com/fasterthanlime/go-selenium"`
+`import "github.com/itchio/go-selenium"`
 
 ## Getting started
 
 Prior to using this library you need to ensure that you have a Selenium instance running (standalone or grid is fine). If you don't know how to do this, there is a small section called 'Getting Selenium running' below.
 
-Please see the [examples/getting-started/main.go](https://github.com/fasterthanlime/go-selenium/blob/master/examples/getting-started/main.go) file.
+Please see the [examples/getting-started/main.go](https://github.com/itchio/go-selenium/blob/master/examples/getting-started/main.go) file.
 
 ## Examples
 
@@ -36,7 +36,7 @@ Further examples, including tests of HackerNews (c), are available within the `e
 
 ## Documentation
 
-All documentation is available on the godoc.org website: [https://godoc.org/github.com/fasterthanlime/go-selenium](https://godoc.org/github.com/fasterthanlime/go-selenium). 
+All documentation is available on the godoc.org website: [https://godoc.org/github.com/itchio/go-selenium](https://godoc.org/github.com/itchio/go-selenium). 
 
 ## Getting Selenium running
 

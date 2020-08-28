@@ -1,4 +1,4 @@
-module github.com/fasterthanlime/go-selenium
+module github.com/itchio/go-selenium
 
 go 1.12
 

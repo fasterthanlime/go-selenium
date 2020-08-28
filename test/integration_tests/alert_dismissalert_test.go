@@ -3,7 +3,7 @@ package integrationtests
 import (
 	"testing"
 
-	goselenium "github.com/fasterthanlime/go-selenium"
+	goselenium "github.com/itchio/go-selenium"
 )
 
 func Test_AlertDismissAlert_CanDismissAnAlertCorrectly(t *testing.T) {

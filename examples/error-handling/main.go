@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	goselenium "github.com/fasterthanlime/go-selenium"
+	goselenium "github.com/itchio/go-selenium"
 )
 
 func main() {

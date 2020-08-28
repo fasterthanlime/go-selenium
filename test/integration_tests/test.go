@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/fasterthanlime/go-selenium"
+	"github.com/itchio/go-selenium"
 	"github.com/pkg/errors"
 )
 

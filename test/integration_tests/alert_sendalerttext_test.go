@@ -3,7 +3,7 @@ package integrationtests
 import (
 	"testing"
 
-	goselenium "github.com/fasterthanlime/go-selenium"
+	goselenium "github.com/itchio/go-selenium"
 )
 
 func Test_AlertSendAlertText_CanSendAlertTextCorrectly(t *testing.T) {

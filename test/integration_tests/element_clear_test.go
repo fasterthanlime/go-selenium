@@ -3,7 +3,7 @@ package integrationtests
 import (
 	"testing"
 
-	"github.com/fasterthanlime/go-selenium"
+	"github.com/itchio/go-selenium"
 )
 
 func Test_ElementClear_ElementsAreClearedSuccessfully(t *testing.T) {

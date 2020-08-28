@@ -3,7 +3,7 @@ package integrationtests
 import (
 	"testing"
 
-	"github.com/fasterthanlime/go-selenium"
+	"github.com/itchio/go-selenium"
 )
 
 func Test_ElementEnabled_EnabledElementIsReturnedCorrectly(t *testing.T) {

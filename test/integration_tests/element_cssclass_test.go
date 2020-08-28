@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/fasterthanlime/go-selenium"
+	"github.com/itchio/go-selenium"
 )
 
 func Test_ElementCSSValue_CanGetCorrectCSSValue(t *testing.T) {

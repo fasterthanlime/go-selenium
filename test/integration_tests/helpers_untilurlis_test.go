@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	goselenium "github.com/fasterthanlime/go-selenium"
+	goselenium "github.com/itchio/go-selenium"
 )
 
 func Test_WaitUntilURLIs_WorksCorrectly(t *testing.T) {

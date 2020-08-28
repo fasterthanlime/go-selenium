@@ -3,7 +3,7 @@ package integrationtests
 import (
 	"testing"
 
-	"github.com/fasterthanlime/go-selenium"
+	"github.com/itchio/go-selenium"
 )
 
 func Test_CommandSwitchToParentFrame_CorrectResponseCanBeReturned(t *testing.T) {
